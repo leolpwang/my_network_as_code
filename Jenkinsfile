@@ -26,3 +26,4 @@ node {
           deleteDir()
           checkout scm
      }
+    }
