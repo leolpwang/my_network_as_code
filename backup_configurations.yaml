@@ -2,7 +2,7 @@
 - name: Backup Cisco IOS-XE Router Configurations
   connection: local
   hosts: cisco-ios-xe-routers
-  gather_facts: no
+  gather_facts: yes 
   vars:
     creds:
       hostname: "{{ ansible_host }}"
@@ -16,8 +16,13 @@
        filter: "config"
      register: config
    - copy:
-      content: "{{ config['ansible_facts']['napalm_config']['running'] }}"
-      dest: "backup/{{ inventory_hostname }}_config"
+       content: "{{ config['ansible_facts']['napalm_config']['running'] }}"
+       dest: "backup/{{ inventory_hostname }}_config.{{ ansible_date_time.date}}@{{ ansible_date_time.time }}"
+   - replace:
+       path: "{{ lookup('pipe', 'ls -1 backup/{{ inventory_hostname }}_config.**') }}"
+       regexp: '^username \*\*\*\*\*\*\*\*'
+       replace: "username {{ username }}"
+
 - name: Backup Cisco ASA Configurations
   connection: local
   hosts: cisco-asa
@@ -34,6 +39,10 @@
     - asa_config:
          provider: "{{ creds }}"
          backup: yes
+    - replace:
+         path: "{{ lookup('pipe', 'ls -1 backup/{{ inventory_hostname }}_config.**') }}"
+         regexp: '^username \*\*\*\*\*\*\*\*'
+         replace: "username {{ username }}"
 
 - name: Backup Cisco NXOS Configurations
   connection: local
@@ -62,4 +71,8 @@
     - copy:
         content: "{{ config['ansible_facts']['napalm_config']['running'] }}"
         dest: "backup/{{ inventory_hostname }}_config.{{ ansible_date_time.date}}@{{ ansible_date_time.time }}"
+    - replace:
+         path: "{{ lookup('pipe', 'ls -1 backup/{{ inventory_hostname }}_config.**') }}"
+         regexp: '^username \*\*\*\*\*\*\*\*'
+         replace: "username {{ username }}"
 
