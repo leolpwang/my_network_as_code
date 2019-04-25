@@ -48,11 +48,10 @@
   gather_facts: no
   vars:
     creds:
-     hostname: "{{ ansible_host }}"
+     host: "{{ ansible_host }}"
      username: "{{ username }}"
      password: "{{ password }}" 
-     dev_os: "{{ device_type }}"
-     authorize: "yes"
+     authorize: yes
      auth_pass: "{{ enable_password }}"
   tags: asa
   tasks:
