@@ -1,0 +1,15 @@
+---
+- name: Validate "Core" to "Internet" Reachability
+  connection: local
+  hosts: acme-sea-nxos1
+  gather_facts: no
+  vars:
+    creds:
+      host: "{{ ansible_host }}"
+      username: "{{ username }}"
+      password: "{{ password }}"
+    tasks:
+      - nxos_ping:
+          provider: "{{ creds }}"
+          dest: 8.8.8.8
+          vrf: default 
