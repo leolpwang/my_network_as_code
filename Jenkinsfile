@@ -10,7 +10,7 @@ node {
       sh 'ansible-playbook generate_configurations.yaml'
      }
     stage ('Unit Testing') {
-       sh 'ansible-playbook depoy_configurations.yaml --syntax-check'
+       sh 'ansible-playbook deploy_configurations.yaml --syntax-check'
      }
     stage ('Deploy Configurations to Dev') {
      sh 'python3 -m venv jenkins_build'
