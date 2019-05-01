@@ -22,6 +22,8 @@
        path: "{{ lookup('pipe', 'ls -1 backup/{{ inventory_hostname }}_config.**') }}"
        regexp: '^username \*\*\*\*\*\*\*\*'
        replace: "username {{ username }}"
+   - shell: sed -i 1,3d "{{ lookup('pipe', 'ls -1 backup/{{ inventory_hostname}}_config.**') }}"
+
 
 - name: Backup Cisco ASA Configurations
   connection: local

@@ -16,3 +16,21 @@
             config_file: "{{ lookup('pipe', 'ls -1 backup/{{ inventory_hostname }}_config.**') }}"
             commit_changes: True
             replace_config: True
+
+- name: Replace Cisco NXOS Configurations
+  connection: local
+  hosts: cisco-nxos
+  gather_facts: no
+  vars:
+       nxos_rollback_creds:
+          host: "{{ ansible_host }}"
+          username: "{{ username }}"
+          password: "{{ password }}"
+          transport: "cli"
+  tags: nxos
+  tasks:
+     - nxos_rollback:
+          provider: "{{ nxos_rollback_creds }}"
+          rollback_to: my_net_as_code_checkpoint
+
+
