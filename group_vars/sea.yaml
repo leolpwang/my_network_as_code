@@ -6,7 +6,7 @@ domain_name: sea.acme.com
 name_server_1: 8.8.8.8
 name_server_2: 8.8.4.4
 users: {
-	'ignw': {
+        'ignw': {
         'privilege': 15,
         'password': 'ignw',
         'role': 'network-admin',
